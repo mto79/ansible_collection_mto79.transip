@@ -1,0 +1,19 @@
+---
+- name: "Setup | DNS | Managing DNS record at TransIP"
+  delegate_to: "localhost"
+  ansible.builtin.uri:
+    url: "https://api.transip.nl/v6/domains/{{ dns.zone }}/dns"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ dns.transip_token }}"
+    body_format: "json"
+    body:
+      dnsEntry:
+        name: "{{ dns.zone }}"
+        expire: "{{ dns.ttl }}"
+        type: "{{ dns.record_type }}"
+        content: "{{ dns.record }}"
+    status_code: 201
+  register: "_transip_dns_setup_record_response"
+
+...

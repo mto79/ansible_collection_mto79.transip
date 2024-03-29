@@ -1,0 +1,11 @@
+---
+- name: "Setup | Loop over aws dns entries"
+  when: "transip_dns_setup_entries is defined"
+  ansible.builtin.include_tasks:
+    file: "setup/dns.yml"
+  loop: "{{ transip_dns_setup_entries }}"
+  loop_control:
+    label: "{{ dns.name }}"
+    loop_var: "dns"
+
+...
